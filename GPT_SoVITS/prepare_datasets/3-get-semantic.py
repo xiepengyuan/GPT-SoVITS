@@ -1,14 +1,14 @@
 import os
 
-inp_text = os.environ.get("inp_text")
-exp_name = os.environ.get("exp_name")
-i_part = os.environ.get("i_part")
-all_parts = os.environ.get("all_parts")
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ.get("_CUDA_VISIBLE_DEVICES")
-opt_dir = os.environ.get("opt_dir")
-pretrained_s2G = os.environ.get("pretrained_s2G")
-s2config_path = os.environ.get("s2config_path")
-is_half = eval(os.environ.get("is_half", "True"))
+# inp_text = os.environ.get("inp_text")
+# exp_name = os.environ.get("exp_name")
+# i_part = os.environ.get("i_part")
+# all_parts = os.environ.get("all_parts")
+# os.environ["CUDA_VISIBLE_DEVICES"] = os.environ.get("_CUDA_VISIBLE_DEVICES")
+# opt_dir = os.environ.get("opt_dir")
+# pretrained_s2G = os.environ.get("pretrained_s2G")
+# s2config_path = os.environ.get("s2config_path")
+# is_half = eval(os.environ.get("is_half", "True"))
 import math, traceback
 import multiprocessing
 import sys, pdb
@@ -25,12 +25,16 @@ from module.models import SynthesizerTrn
 logging.getLogger("numba").setLevel(logging.WARNING)
 # from config import pretrained_s2G
 
-# inp_text=sys.argv[1]
-# exp_name=sys.argv[2]
-# i_part=sys.argv[3]
-# all_parts=sys.argv[4]
-# os.environ["CUDA_VISIBLE_DEVICES"]=sys.argv[5]
-# opt_dir="/data/docker/liujing04/gpt-vits/fine_tune_dataset/%s"%exp_name
+
+inp_text = sys.argv[1]
+exp_name = sys.argv[2]
+i_part = sys.argv[3]
+all_parts = sys.argv[4]
+os.environ["CUDA_VISIBLE_DEVICES"] = sys.argv[5]
+opt_dir = f"/data1/xiepengyuan/exp/audio/gpt_sovits/{exp_name}"
+pretrained_s2G = "/data1/xiepengyuan/workspace/audio/GPT-SoVITS/SoVITS_weights/base_mihoyo_e500_s432500.pth"
+s2config_path = "/data1/xiepengyuan/exp/audio/gpt_sovits/base_mihoyo/config.json"
+is_half = True
 
 
 hubert_dir = "%s/4-cnhubert" % (opt_dir)

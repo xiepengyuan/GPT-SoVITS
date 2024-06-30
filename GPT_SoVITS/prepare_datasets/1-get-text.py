@@ -2,15 +2,15 @@
 
 import os
 
-inp_text = os.environ.get("inp_text")
-inp_wav_dir = os.environ.get("inp_wav_dir")
-exp_name = os.environ.get("exp_name")
-i_part = os.environ.get("i_part")
-all_parts = os.environ.get("all_parts")
-os.environ["CUDA_VISIBLE_DEVICES"] = os.environ.get("_CUDA_VISIBLE_DEVICES")
-opt_dir = os.environ.get("opt_dir")
-bert_pretrained_dir = os.environ.get("bert_pretrained_dir")
-is_half = eval(os.environ.get("is_half", "True"))
+# inp_text = os.environ.get("inp_text")
+# inp_wav_dir = os.environ.get("inp_wav_dir")
+# exp_name = os.environ.get("exp_name")
+# i_part = os.environ.get("i_part")
+# all_parts = os.environ.get("all_parts")
+# os.environ["CUDA_VISIBLE_DEVICES"] = os.environ.get("_CUDA_VISIBLE_DEVICES")
+# opt_dir = os.environ.get("opt_dir")
+# bert_pretrained_dir = os.environ.get("bert_pretrained_dir")
+# is_half = eval(os.environ.get("is_half", "True"))
 import sys, numpy as np, traceback, pdb
 import os.path
 from glob import glob
@@ -20,14 +20,15 @@ import torch
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 import numpy as np
 
-# inp_text=sys.argv[1]
+inp_text=sys.argv[1]
 # inp_wav_dir=sys.argv[2]
-# exp_name=sys.argv[3]
-# i_part=sys.argv[4]
-# all_parts=sys.argv[5]
-# os.environ["CUDA_VISIBLE_DEVICES"]=sys.argv[6]#i_gpu
-# opt_dir="/data/docker/liujing04/gpt-vits/fine_tune_dataset/%s"%exp_name
-# bert_pretrained_dir="/data/docker/liujing04/bert-vits2/Bert-VITS2-master20231106/bert/chinese-roberta-wwm-ext-large"
+exp_name=sys.argv[2]
+i_part=sys.argv[3]
+all_parts=sys.argv[4]
+os.environ["CUDA_VISIBLE_DEVICES"]=sys.argv[5]#i_gpu
+opt_dir=f"/data1/xiepengyuan/exp/audio/gpt_sovits/{exp_name}"
+bert_pretrained_dir="/data1/xiepengyuan/.cache/huggingface/GPT-SoVITS/chinese-roberta-wwm-ext-large"
+is_half = True
 
 from time import time as ttime
 import shutil
@@ -117,12 +118,9 @@ if os.path.exists(txt_path) == False:
         try:
             wav_name, spk_name, language, text = line.split("|")
             # todo.append([name,text,"zh"])
-            if language in language_v1_to_language_v2.keys():
-                todo.append(
-                    [wav_name, text, language_v1_to_language_v2.get(language, language)]
-                )
-            else:
-                print(f"\033[33m[Waring] The {language = } of {wav_name} is not supported for training.\033[0m")
+            todo.append(
+                [wav_name, text, language_v1_to_language_v2.get(language, language)]
+            )
         except:
             print(line, traceback.format_exc())
 

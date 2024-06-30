@@ -1,7 +1,7 @@
 import utils, os
 
 hps = utils.get_hparams(stage=2)
-os.environ["CUDA_VISIBLE_DEVICES"] = hps.train.gpu_numbers.replace("-", ",")
+# os.environ["CUDA_VISIBLE_DEVICES"] = hps.train.gpu_numbers.replace("-", ",")
 import torch
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
